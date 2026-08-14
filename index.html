@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>LLD服务器</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 40px;
+            line-height: 1.6;
+            color: #333;
+        }
+        .box {
+            margin-bottom: 15px;
+        }
+        button {
+            padding: 4px 8px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>LLD 服务器</h1>
+    
+    <div class="box">
+        <strong>服务器IP0：</strong> 
+        <span id="ip0">0.lldgobyfox.bbs0.cc:28792</span> 
+        <button onclick="copyText('ip0')">复制</button>
+    </div>
+
+    <div class="box">
+        <strong>服务器IP1：</strong> 
+        <span id="ip1">1.lldgobyfox.bbs0.cc:34490</span> 
+        <button onclick="copyText('ip1')">复制</button>
+    </div>
+
+    <div class="box">
+        <strong>QQ群：</strong> 
+        <span id="qq">1051606902</span> 
+        <button onclick="copyText('qq')">复制</button>
+    </div>
+
+<script>
+    function copyText(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        navigator.clipboard.writeText(text).then(() => {
+            alert('复制成功: ' + text);
+        }).catch(err => {
+            alert('复制失败');
+        });
+    }
+</script>
+
+</body>
+</html>
