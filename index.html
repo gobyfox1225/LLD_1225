@@ -5,52 +5,109 @@
     <title>LLD服务器</title>
     <style>
         body {
-            font-family: sans-serif;
-            margin: 40px;
-            line-height: 1.6;
-            color: #333;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+            background: radial-gradient(circle at 50% 100%, #5ba8ff 0%, #005a9e 60%, #001f3f 100%);
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
-        .box {
-            margin-bottom: 15px;
+
+        .aero-window {
+            background: rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.7);
+            border-radius: 10px;
+            padding: 3px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+            width: 400px;
         }
+
+        .title-bar {
+            padding: 10px 15px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
+            border-bottom: 1px solid rgba(255,255,255,0.4);
+            margin-bottom: 12px;
+            background: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(0,0,0,0.2));
+            border-radius: 8px 8px 0 0;
+        }
+
+        .content { padding: 0 15px 15px 15px; }
+
+        .info-row {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+
         button {
-            padding: 4px 8px;
+            background: linear-gradient(to bottom, #ffffff 0%, #dcdcdc 100%);
+            border: 1px solid #555;
+            border-radius: 4px;
+            color: #000;
+            padding: 4px 15px;
             cursor: pointer;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+        #custom-alert {
+            display: none;
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.6);
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
 
-    <h1>LLD 服务器</h1>
-    
-    <div class="box">
-        <strong>服务器IP0：</strong> 
-        <span id="ip0">0.lldgobyfox.bbs0.cc:28792</span> 
-        <button onclick="copyText('ip0')">复制</button>
+    <div class="aero-window">
+        <div class="title-bar">LLD 服务器信息</div>
+        <div class="content">
+            <div class="info-row">
+                <span>IP0: <span id="p0">0.lldgobyfox.bbs0.cc:28792</span></span>
+                <button onclick="c('p0')">复制</button>
+            </div>
+            <div class="info-row">
+                <span>IP1: <span id="p1">1.lldgobyfox.bbs0.cc:34490</span></span>
+                <button onclick="c('p1')">复制</button>
+            </div>
+            <div class="info-row">
+                <span>QQ群: <span id="q">1051606902</span></span>
+                <button onclick="c('q')">复制</button>
+            </div>
+        </div>
     </div>
 
-    <div class="box">
-        <strong>服务器IP1：</strong> 
-        <span id="ip1">1.lldgobyfox.bbs0.cc:34490</span> 
-        <button onclick="copyText('ip1')">复制</button>
-    </div>
+    <div id="custom-alert">复制成功！</div>
 
-    <div class="box">
-        <strong>QQ群：</strong> 
-        <span id="qq">1051606902</span> 
-        <button onclick="copyText('qq')">复制</button>
-    </div>
-
-<script>
-    function copyText(elementId) {
-        const text = document.getElementById(elementId).innerText;
-        navigator.clipboard.writeText(text).then(() => {
-            alert('复制成功: ' + text);
-        }).catch(err => {
-            alert('复制失败');
+    <script type="text/javascript">
+    function c(id){
+        var el = document.getElementById(id);
+        var t = el.innerText || el.textContent;
+        navigator.clipboard.writeText(t).then(function() {
+            var box = document.getElementById('custom-alert');
+            box.style.display = 'block';
+            setTimeout(function() { box.style.display = 'none'; }, 2000);
         });
     }
-</script>
-
+    </script>
 </body>
 </html>
