@@ -2,112 +2,352 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LLD服务器</title>
     <style>
         body {
+            background-color: #1a1a1a;
+            font-family: "宋体", SimSun, "Courier New", monospace;
             margin: 0;
-            padding: 0;
-            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
-            background: radial-gradient(circle at 50% 100%, #5ba8ff 0%, #005a9e 60%, #001f3f 100%);
-            height: 100vh;
+            padding: 20px;
             display: flex;
-            align-items: center;
             justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+            user-select: none;
         }
 
-        .aero-window {
-            background: rgba(255, 255, 255, 0.3);
-            backdrop-filter: blur(25px);
-            -webkit-backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.7);
-            border-radius: 10px;
-            padding: 3px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.5);
-            width: 400px;
+        .holo-dialog {
+            background-color: #2b2b2b;
+            border: 2px solid #555555;
+            border-top-color: #777777;
+            border-left-color: #777777;
+            width: 100%;
+            max-width: 440px;
+            box-shadow: inset 1px 1px 0px #3d3d3d, inset -1px -1px 0px #1a1a1a, 0 12px 32px rgba(0,0,0,0.8);
+            box-sizing: border-box;
         }
 
-        .title-bar {
-            padding: 10px 15px;
+        .holo-title-bar {
+            background-color: #2b2b2b;
+            color: #33b5e5;
+            padding: 16px 20px 12px 20px;
+            font-size: 18px;
             font-weight: bold;
-            color: #fff;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.6);
-            border-bottom: 1px solid rgba(255,255,255,0.4);
-            margin-bottom: 12px;
-            background: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(0,0,0,0.2));
-            border-radius: 8px 8px 0 0;
-        }
-
-        .content { padding: 0 15px 15px 15px; }
-
-        .info-row {
-            background: rgba(255, 255, 255, 0.15);
-            padding: 12px;
-            margin: 10px 0;
-            border-radius: 6px;
-            border: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 2px solid #33b5e5;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #fff;
+            text-shadow: 1px 1px 0px #000000;
+        }
+
+        .holo-content {
+            padding: 16px 20px;
+            background: #2b2b2b;
+        }
+
+        .holo-group-box {
+            border: 2px solid #555555;
+            border-top-color: #3d3d3d;
+            border-left-color: #3d3d3d;
+            padding: 14px 12px 10px 12px;
+            margin-bottom: 14px;
+            position: relative;
+            background: #242424;
+            box-shadow: inset 1px 1px 0px #1a1a1a;
+            box-sizing: border-box;
+        }
+
+        .holo-group-box legend {
+            font-size: 12px;
+            color: #33b5e5;
+            padding: 0 6px;
+            background: #2b2b2b;
+            position: absolute;
+            top: -8px;
+            left: 10px;
+            font-weight: bold;
+            border: 1px solid #444444;
+        }
+
+        .holo-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+            color: #ffffff;
+            box-sizing: border-box;
+        }
+
+        .holo-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .holo-row > span:first-child {
+            width: 40px;
+            flex-shrink: 0;
+        }
+
+        .holo-value {
+            font-family: "Courier New", Courier, monospace;
+            background: #151515;
+            border: 2px solid #383838;
+            border-top-color: #111111;
+            border-left-color: #111111;
+            padding: 4px 8px;
+            flex: 1;
+            min-width: 0;
+            margin: 0 8px;
+            word-break: break-all;
+            white-space: normal;
+            color: #33b5e5;
+            box-shadow: inset 1px 1px 0px #000000;
+            box-sizing: border-box;
         }
 
         button {
-            background: linear-gradient(to bottom, #ffffff 0%, #dcdcdc 100%);
-            border: 1px solid #555;
-            border-radius: 4px;
-            color: #000;
-            padding: 4px 15px;
+            background-color: #333333;
+            border: 2px solid #666666;
+            border-top-color: #888888;
+            border-left-color: #888888;
+            border-right-color: #222222;
+            border-bottom-color: #222222;
+            color: #33b5e5;
+            padding: 6px 10px;
+            font-size: 14px;
+            font-family: "宋体", SimSun, monospace;
             cursor: pointer;
-            box-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            flex-shrink: 0;
+            font-weight: bold;
+            text-transform: uppercase;
+            box-shadow: inset 1px 1px 0px #444444;
         }
-        #custom-alert {
+
+        button:hover {
+            background-color: #3d3d3d;
+            border-top-color: #999999;
+            border-left-color: #999999;
+        }
+
+        button:active {
+            background-color: #222222;
+            border-top-color: #222222;
+            border-left-color: #222222;
+            border-right-color: #666666;
+            border-bottom-color: #666666;
+            box-shadow: inset 1px 1px 0px #000000;
+        }
+
+        .holo-modal {
             display: none;
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.4);
-            backdrop-filter: blur(10px);
-            padding: 15px 25px;
-            border-radius: 8px;
-            border: 1px solid rgba(255,255,255,0.6);
-            color: white;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.75);
+            z-index: 998;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .holo-popup-box {
+            background: #2b2b2b;
+            border: 2px solid #666666;
+            border-top-color: #888888;
+            border-left-color: #888888;
+            border-right-color: #1a1a1a;
+            border-bottom-color: #1a1a1a;
+            width: 90%;
+            max-width: 320px;
+            box-shadow: inset 1px 1px 0px #444444, 0 12px 36px rgba(0,0,0,0.9);
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .holo-popup-body {
+            padding: 20px;
+            color: #ffffff;
+        }
+
+        .holo-popup-body img {
+            width: 200px;
+            height: auto;
+            border: 2px solid #1a1a1a;
+            border-top-color: #444444;
+            border-left-color: #444444;
+            background: #151515;
+            padding: 6px;
+            display: block;
+            margin: 0 auto 10px auto;
+            box-shadow: inset 1px 1px 0px #000000;
+        }
+
+        .holo-popup-tip {
+            font-size: 12px;
+            color: #aaaaaa;
+        }
+
+        .holo-popup-footer {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0 10px 10px 10px;
+            border-top: 1px solid #383838;
+            background: #242424;
         }
     </style>
 </head>
 <body>
 
-    <div class="aero-window">
-        <div class="title-bar">LLD 服务器信息</div>
-        <div class="content">
-            <div class="info-row">
-                <span>IP0: <span id="p0">0.lldgobyfox.bbs0.cc:28792</span></span>
-                <button onclick="c('p0')">复制</button>
+    <div class="holo-dialog">
+        <div class="holo-title-bar">
+            <span>LLD服务器</span>
+        </div>
+        <div class="holo-content">
+            <fieldset class="holo-group-box">
+                <legend>公告栏</legend>
+                <div style="font-size: 13px; color: #cccccc; line-height: 1.6; word-break: break-all; padding: 4px;">
+                    欢迎来到LLD服务器！请遵守服务器规则，文明游戏。如遇问题请及时联系管理员或加入QQ群反馈。祝大家游玩愉快！
+                </div>
+            </fieldset>
+
+            <fieldset class="holo-group-box">
+                <legend>服务器IP</legend>
+                <div class="holo-row">
+                    <span>IP0</span>
+                    <div class="holo-value" id="ip0">0.lldgobyfox.bbs0.cc:28792</div>
+                    <button onclick="copyText('ip0')">复制</button>
+                </div>
+                <div class="holo-row">
+                    <span>IP1</span>
+                    <div class="holo-value" id="ip1">1.lldgobyfox.bbs0.cc:34490</div>
+                    <button onclick="copyText('ip1')">复制</button>
+                </div>
+            </fieldset>
+
+            <fieldset class="holo-group-box">
+                <legend>整合包下载</legend>
+                <div class="holo-row">
+                    <span>下载</span>
+                    <div class="holo-value" style="color: #aaaaaa; border-style: dashed;">点击右侧下载整合包</div>
+                    <button onclick="downloadClient()">下载</button>
+                </div>
+            </fieldset>
+
+            <fieldset class="holo-group-box">
+                <legend>交流群</legend>
+                <div class="holo-row">
+                    <span>QQ群</span>
+                    <div class="holo-value" id="qq">1051606902</div>
+                    <button onclick="copyText('qq')">复制</button>
+                </div>
+                <div class="holo-row" style="margin-top: 10px;">
+                    <span>QQ群二维码</span>
+                    <div class="holo-value" style="color: #aaaaaa; border-style: dashed;">点击右侧查看二维码</div>
+                    <button onclick="openQrcode()">查看</button>
+                </div>
+            </fieldset>
+        </div>
+    </div>
+
+    <div id="holo-msgbox" class="holo-modal">
+        <div class="holo-popup-box" style="max-width: 280px;">
+            <div class="holo-title-bar" style="font-size: 16px; padding: 12px 16px;">
+                <span>提示</span>
             </div>
-            <div class="info-row">
-                <span>IP1: <span id="p1">1.lldgobyfox.bbs0.cc:34490</span></span>
-                <button onclick="c('p1')">复制</button>
+            <div class="holo-popup-body" style="padding: 20px; font-size: 15px;">
+                已成功复制到剪贴板
             </div>
-            <div class="info-row">
-                <span>QQ群: <span id="q">1051606902</span></span>
-                <button onclick="c('q')">复制</button>
+            <div class="holo-popup-footer">
+                <button onclick="closeMsg()">确定</button>
             </div>
         </div>
     </div>
 
-    <div id="custom-alert">复制成功！</div>
+    <div id="qrcode-modal" class="holo-modal" onclick="closeQrcodeByClickOutside(event)">
+        <div class="holo-popup-box">
+            <div class="holo-title-bar" style="font-size: 16px; padding: 12px 16px;">
+                <span>QQ群二维码</span>
+                <button onclick="closeQrcode()" style="padding: 0 4px; font-size: 16px;">×</button>
+            </div>
+            <div class="holo-popup-body">
+                <img src="qrcode.bmp" alt="QQ群二维码" id="qrcode-img">
+            </div>
+            <div class="holo-popup-footer" style="justify-content: center;">
+                <button onclick="saveQrcodeImage()">保存</button>
+            </div>
+        </div>
+    </div>
 
-    <script type="text/javascript">
-    function c(id){
-        var el = document.getElementById(id);
-        var t = el.innerText || el.textContent;
-        navigator.clipboard.writeText(t).then(function() {
-            var box = document.getElementById('custom-alert');
-            box.style.display = 'block';
-            setTimeout(function() { box.style.display = 'none'; }, 2000);
-        });
+<script>
+    function copyText(elementId) {
+        const text = document.getElementById(elementId).innerText;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(text).then(() => {
+                document.getElementById('holo-msgbox').style.display = 'flex';
+            }).catch(() => {
+                fallbackCopy(text);
+            });
+        } else {
+            fallbackCopy(text);
+        }
     }
-    </script>
+
+    function fallbackCopy(text) {
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        textarea.style.position = 'fixed';
+        textarea.style.opacity = '0';
+        document.body.appendChild(textarea);
+        textarea.focus();
+        textarea.select();
+        try {
+            const successful = document.execCommand('copy');
+            if (successful) {
+                document.getElementById('holo-msgbox').style.display = 'flex';
+            } else {
+                alert('复制失败,请手动长按复制');
+            }
+        } catch (err) {
+            alert('复制失败,请手动长按复制');
+        }
+        document.body.removeChild(textarea);
+    }
+
+    function downloadClient() {
+        window.location.href = 'https://www.ilanzou.com/s/6A1ldGFo';
+    }
+
+    function closeMsg() {
+        document.getElementById('holo-msgbox').style.display = 'none';
+    }
+
+    function openQrcode() {
+        document.getElementById('qrcode-modal').style.display = 'flex';
+    }
+
+    function closeQrcode() {
+        document.getElementById('qrcode-modal').style.display = 'none';
+    }
+
+    function closeQrcodeByClickOutside(event) {
+        if (event.target.id === 'qrcode-modal') {
+            closeQrcode();
+        }
+    }
+
+    function saveQrcodeImage() {
+        const img = document.getElementById('qrcode-img');
+        const link = document.createElement('a');
+        link.href = img.src;
+        link.download = 'qrcode.bmp';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+    }
+</script>
+
 </body>
 </html>
