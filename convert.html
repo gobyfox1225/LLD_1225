@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>格式转换</title>
+    <style>
+        @font-face {
+            font-family: 'AiDianFengYaHei';
+            src: url('aidianfengyahei.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'AiDianFengYaHei', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 0%, #76dbff 0%, #1a96ff 50%, #004b99 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-top: 2px solid rgba(255, 255, 255, 0.9);
+            padding: 35px;
+            width: 100%;
+            max-width: 800px;
+            box-shadow: 0 16px 50px rgba(0, 50, 100, 0.35);
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            text-align: center;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section h3 {
+            font-size: 1.15rem;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        input, select, textarea {
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.85);
+            color: #000;
+            font-size: 0.95rem;
+            width: 100%;
+        }
+
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+
+        .img-btn-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+            align-self: flex-start;
+        }
+
+        .img-btn {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .btn-label {
+            margin-top: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.25);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: monospace;
+            word-break: break-all;
+            white-space: pre-wrap;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h1>格式转换</h1>
+
+        <div class="section">
+            <h3>图像格式互换 (PNG / JPEG / BMP / WEBP / ICO)</h3>
+            <input type="file" id="imageInput" accept="image/*">
+            <div class="row">
+                <select id="imageFormat">
+                    <option value="image/png">PNG</option>
+                    <option value="image/jpeg">JPEG</option>
+                    <option value="image/webp">WEBP</option>
+                    <option value="image/bmp">BMP</option>
+                    <option value="image/x-icon">ICO</option>
+                </select>
+                <div class="img-btn-container" onclick="convertImage()">
+                    <img src="button.png" class="img-btn" alt="CONVERT">
+                    <span class="btn-label">转换图片</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h3>文本与编码转换 (Base64 / URL Encode / HEX / Unicode)</h3>
+            <textarea id="textInput" rows="2" placeholder="请输入需要转换的文本内容..."></textarea>
+            <div class="row">
+                <select id="textFormat">
+                    <option value="base64_encode">Base64 编码</option>
+                    <option value="base64_decode">Base64 解码</option>
+                    <option value="url_encode">URL 编码</option>
+                    <option value="url_decode">URL 解码</option>
+                    <option value="hex_encode">HEX 文本转十六进制</option>
+                    <option value="unicode">Unicode 编码</option>
+                </select>
+                <div class="img-btn-container" onclick="convertText()">
+                    <img src="button.png" class="img-btn" alt="CONVERT">
+                    <span class="btn-label">转换文本</span>
+                </div>
+            </div>
+            <div class="result-box" id="textResult">文本转换结果将显示在这里</div>
+        </div>
+
+        <div class="section">
+            <h3>日语假名与罗马音互转</h3>
+            <textarea id="jpInput" rows="2" placeholder="请输入假名或者罗马音 (例如: あ い う え お 或 ka ki ku ke ko)..."></textarea>
+            <div class="row">
+                <select id="jpFormat">
+                    <option value="hira_to_kata">平假名转片假名</option>
+                    <option value="kata_to_hira">片假名转平假名</option>
+                    <option value="kana_to_roma">假名转罗马音</option>
+                    <option value="roma_to_kana">罗马音转平假名</option>
+                </select>
+                <div class="img-btn-container" onclick="convertJapanese()">
+                    <img src="button.png" class="img-btn" alt="CONVERT">
+                    <span class="btn-label">转换日文</span>
+                </div>
+            </div>
+            <div class="result-box" id="jpResult">日文转换结果将显示在这里</div>
+        </div>
+
+        <div class="section">
+            <h3>中 英 日 韩 四国语言翻译</h3>
+            <textarea id="transInput" rows="2" placeholder="请输入需要翻译的文本..."></textarea>
+            <div class="row">
+                <select id="transTarget">
+                    <option value="en">翻译为英文 (English)</option>
+                    <option value="ja">翻译为日文 (Japanese)</option>
+                    <option value="ko">翻译为韩文 (Korean)</option>
+                    <option value="zh">翻译为中文 (Chinese)</option>
+                </select>
+                <div class="img-btn-container" onclick="convertTranslate()">
+                    <img src="button.png" class="img-btn" alt="TRANSLATE">
+                    <span class="btn-label">在线翻译</span>
+                </div>
+            </div>
+            <div class="result-box" id="transResult">翻译结果将显示在这里</div>
+        </div>
+
+        <div class="section">
+            <h3>数据结构互换 (JSON / CSV / XML)</h3>
+            <textarea id="dataInput" rows="3" placeholder='请输入 JSON 数据,例如:{"name": "LLD", "version": 1.0}'></textarea>
+            <div class="row">
+                <select id="dataFormat">
+                    <option value="pretty_json">格式化 JSON</option>
+                    <option value="json_to_csv">JSON 转简易 CSV</option>
+                    <option value="json_to_xml">JSON 转简易 XML</option>
+                </select>
+                <div class="img-btn-container" onclick="convertData()">
+                    <img src="button.png" class="img-btn" alt="CONVERT">
+                    <span class="btn-label">转换数据</span>
+                </div>
+            </div>
+            <div class="result-box" id="dataResult">数据结构转换结果将显示在这里</div>
+        </div>
+
+        <div class="section">
+            <h3>常用单位换算 (长度 / 重量 / 温度 / 存储容量)</h3>
+            <div class="row">
+                <input type="number" id="unitVal" placeholder="数值" value="1" style="flex:1;">
+                <select id="unitType" style="flex:2;">
+                    <option value="m_cm">米 (m) -> 厘米 (cm)</option>
+                    <option value="cm_m">厘米 (cm) -> 米 (m)</option>
+                    <option value="kg_g">千克 (kg) -> 克 (g)</option>
+                    <option value="c_f">摄氏度 (°C) -> 华氏度 (°F)</option>
+                    <option value="mb_gb">MB -> GB</option>
+                    <option value="gb_mb">GB -> MB</option>
+                </select>
+                <div class="img-btn-container" onclick="convertUnit()">
+                    <img src="button.png" class="img-btn" alt="CONVERT">
+                    <span class="btn-label">换算单位</span>
+                </div>
+            </div>
+            <div class="result-box" id="unitResult">单位换算结果将显示在这里</div>
+        </div>
+
+        <div class="section">
+            <h3>进制与机器码及 ARM / Thumb 指令转换</h3>
+            <input type="text" id="numInput" placeholder="请输入数值、十六进制或机器码 (例如: 255, 0xFF, e12fff1e, 4604)">
+            <div class="row">
+                <select id="numType">
+                    <option value="dec">十进制 (DEC)</option>
+                    <option value="hex">十六进制 (HEX)</option>
+                    <option value="bin">二进制 (BIN)</option>
+                    <option value="oct">八进制 (OCT)</option>
+                    <option value="arm">ARM 32位机器码解析</option>
+                    <option value="thumb">Thumb 16位机器码解析</option>
+                </select>
+                <div class="img-btn-container" onclick="convertNumber()">
+                    <img src="button.png" class="img-btn" alt="CONVERT">
+                    <span class="btn-label">转换底层</span>
+                </div>
+            </div>
+            <div class="result-box" id="numResult">进制与底层指令解析结果将显示在这里</div>
+        </div>
+    </div>
+
+    <canvas id="canvas" style="display:none;"></canvas>
+
+    <script>
+        function convertImage() {
+            const fileInput = document.getElementById('imageInput');
+            const formatSelect = document.getElementById('imageFormat');
+            if (fileInput.files.length === 0) {
+                alert('请先选择一个图像文件');
+                return;
+            }
+            const file = fileInput.files[0];
+            const targetType = formatSelect.value;
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.getElementById('canvas');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    let mime = targetType === 'image/x-icon' ? 'image/png' : targetType;
+                    canvas.toBlob(function(blob) {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        let ext = targetType.split('/')[1];
+                        if (ext === 'x-icon') ext = 'ico';
+                        if (ext === 'jpeg') ext = 'jpg';
+                        a.download = 'converted_image.' + ext;
+                        a.click();
+                        URL.revokeObjectURL(url);
+                    }, mime, 0.9);
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function convertText() {
+            const val = document.getElementById('textInput').value;
+            const type = document.getElementById('textFormat').value;
+            const resBox = document.getElementById('textResult');
+            try {
+                if (type === 'base64_encode') resBox.innerText = btoa(unescape(encodeURIComponent(val)));
+                else if (type === 'base64_decode') resBox.innerText = decodeURIComponent(escape(atob(val)));
+                else if (type === 'url_encode') resBox.innerText = encodeURIComponent(val);
+                else if (type === 'url_decode') resBox.innerText = decodeURIComponent(val);
+                else if (type === 'hex_encode') {
+                    resBox.innerText = Array.from(val).map(c => c.charCodeAt(0).toString(16).padStart(2, '0')).join(' ');
+                }
+                else if (type === 'unicode') {
+                    resBox.innerText = Array.from(val).map(c => '\\u' + c.charCodeAt(0).toString(16).padStart(4, '0')).join('');
+                }
+            } catch (e) {
+                resBox.innerText = '转换出错';
+            }
+        }
+
+        function convertJapanese() {
+            const val = document.getElementById('jpInput').value.trim();
+            const type = document.getElementById('jpFormat').value;
+            const resBox = document.getElementById('jpResult');
+            if (!val) {
+                resBox.innerText = '请输入需要转换的内容';
+                return;
+            }
+            if (type === 'hira_to_kata') {
+                let res = val.replace(/[\u3041-\u3096]/g, match => String.fromCharCode(match.charCodeAt(0) + 0x60));
+                resBox.innerText = res;
+            } else if (type === 'kata_to_hira') {
+                let res = val.replace(/[\u30a1-\u30f6]/g, match => String.fromCharCode(match.charCodeAt(0) - 0x60));
+                resBox.innerText = res;
+            } else if (type === 'kana_to_roma') {
+                const map = {
+                    'あ':'a','い':'i','う':'u','え':'e','お':'o','か':'ka','き':'ki','く':'ku','け':'ke','こ':'ko',
+                    'さ':'sa','し':'shi','す':'su','せ':'se','そ':'so','た':'ta','ち':'chi','つ':'tsu','て':'te','と':'to',
+                    'な':'na','に':'ni','ぬ':'nu','ね':'ne','の':'no','は':'ha','ひ':'hi','ふ':'fu','へ':'he','ほ':'ho',
+                    'ま':'ma','み':'mi','む':'mu','め':'me','も':'mo','や':'ya','ゆ':'yu','よ':'yo',
+                    'ら':'ra','り':'ri','る':'ru','れ':'re','ろ':'ro','わ':'wa','を':'wo','ん':'n',
+                    'ア':'a','イ':'i','ウ':'u','エ':'e','オ':'o','カ':'ka','キ':'ki','ク':'ku','ケ':'ke','コ':'ko',
+                    'サ':'sa','シ':'shi','ス':'su','セ':'se','ソ':'so','タ':'ta','チ':'chi','ツ':'tsu','テ':'te','ト':'to',
+                    'ナ':'na','ニ':'ni','ヌ':'nu','ネ':'ne','ノ':'no','ハ':'ha','ヒ':'hi','フ':'fu','ヘ':'he','ホ':'ho',
+                    'マ':'ma','ミ':'mi','ム':'mu','メ':'me','モ':'mo','ヤ':'ya','ユ':'yu','ヨ':'yo',
+                    'ラ':'ra','リ':'ri','ル':'ru','レ':'re','ロ':'ro','ワ':'wa','ヲ':'wo','ン':'n',
+                    'ゃ':'ya','ゅ':'yu','ょ':'yo','ャ':'ya','ュ':'yu','ョ':'yo','っ':'tsu','ッ':'tsu'
+                };
+                let res = Array.from(val).map(c => map[c] || c).join('');
+                resBox.innerText = res;
+            } else if (type === 'roma_to_kana') {
+                const romaMap = {
+                    'shi':'し','chi':'ち','tsu':'つ','fu':'ふ','sha':'しゃ','shu':'しゅ','sho':'しょ',
+                    'cha':'ちゃ','chu':'ちゅ','cho':'ちょ','nya':'にゃ','nyu':'にゅ','nyo':'にょ',
+                    'hya':'ひゃ','hyu':'ひゅ','hyo':'ひょ','mya':'みゃ','myu':'みゅ','myo':'みょ',
+                    'rya':'りゃ','ryu':'りゅ','ryo':'りょ','gya':'ぎゃ','gyu':'ぎゅ','gyo':'ぎょ',
+                    'ja':'じゃ','ju':'じゅ','jo':'じょ','bya':'びゃ','byu':'びゅ','byo':'びょ',
+                    'pya':'ぴゃ','pyu':'ぴゅ','pyo':'ぴょ','ka':'か','ki':'き','ku':'く','ke':'け','ko':'こ',
+                    'sa':'さ','su':'su','se':'せ','so':'so','ta':'た','te':'て','to':'と',
+                    'na':'な','ni':'に','nu':'ぬ','ne':'ね','no':'no','ha':'は','hi':'ひ','he':'へ','ho':'ほ',
+                    'ma':'ま','mi':'み','mu':'む','me':'me','mo':'mo','ya':'や','yu':'ゆ','yo':'よ',
+                    'ra':'ra','ri':'ri','ru':'ru','re':'re','ro':'ro','wa':'わ','wo':'を','n':'ん',
+                    'a':'あ','i':'い','u':'う','e':'え','o':'お'
+                };
+                let str = val.toLowerCase();
+                for (let key in romaMap) {
+                    let regex = new RegExp(key, 'g');
+                    str = str.replace(regex, romaMap[key]);
+                }
+                resBox.innerText = str;
+            }
+        }
+
+        async function convertTranslate() {
+            const val = document.getElementById('transInput').value.trim();
+            const target = document.getElementById('transTarget').value;
+            const resBox = document.getElementById('transResult');
+            if (!val) {
+                resBox.innerText = '请输入需要翻译的内容';
+                return;
+            }
+            resBox.innerText = '正在翻译...';
+            try {
+                let sourceLang = 'auto';
+                const url = `https://translate.googleapis.com/translate_a/single?client=gtx&sl=${sourceLang}&tl=${target}&dt=t&q=` + encodeURIComponent(val);
+                const response = await fetch(url);
+                const data = await response.json();
+                if (data && data[0]) {
+                    let translated = '';
+                    data[0].forEach(item => {
+                        if (item[0]) translated += item[0];
+                    });
+                    resBox.innerText = translated;
+                } else {
+                    resBox.innerText = '翻译失败';
+                }
+            } catch (e) {
+                resBox.innerText = '网络请求失败';
+            }
+        }
+
+        function convertData() {
+            const val = document.getElementById('dataInput').value.trim();
+            const type = document.getElementById('dataFormat').value;
+            const resBox = document.getElementById('dataResult');
+            try {
+                const obj = JSON.parse(val);
+                if (type === 'pretty_json') {
+                    resBox.innerText = JSON.stringify(obj, null, 4);
+                } else if (type === 'json_to_csv') {
+                    const arr = Array.isArray(obj) ? obj : [obj];
+                    if (arr.length === 0) { resBox.innerText = '空数据'; return; }
+                    const keys = Object.keys(arr[0]);
+                    let csv = keys.join(',') + '\n';
+                    arr.forEach(item => {
+                        csv += keys.map(k => item[k] !== undefined ? item[k] : '').join(',') + '\n';
+                    });
+                    resBox.innerText = csv;
+                } else if (type === 'json_to_xml') {
+                    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n<root>\n';
+                    for (let k in obj) {
+                        xml += `    <${k}>${obj[k]}</${k}>\n`;
+                    }
+                    xml += '</root>';
+                    resBox.innerText = xml;
+                }
+            } catch (e) {
+                resBox.innerText = 'JSON 解析失败，请输入合法的 JSON 对象';
+            }
+        }
+
+        function convertUnit() {
+            const val = parseFloat(document.getElementById('unitVal').value);
+            const type = document.getElementById('unitType').value;
+            const resBox = document.getElementById('unitResult');
+            if (isNaN(val)) {
+                resBox.innerText = '请输入有效的数值';
+                return;
+            }
+            let res = 0;
+            if (type === 'm_cm') res = val * 100 + ' 厘米 (cm)';
+            else if (type === 'cm_m') res = val / 100 + ' 米 (m)';
+            else if (type === 'kg_g') res = val * 1000 + ' 克 (g)';
+            else if (type === 'c_f') res = (val * 9/5 + 32).toFixed(2) + ' 华氏度 (°F)';
+            else if (type === 'mb_gb') res = (val / 1024).toFixed(4) + ' GB';
+            else if (type === 'gb_mb') res = (val * 1024) + ' MB';
+            resBox.innerText = '转换结果: ' + res;
+        }
+
+        function convertNumber() {
+            const val = document.getElementById('numInput').value.trim();
+            const type = document.getElementById('numType').value;
+            const resBox = document.getElementById('numResult');
+            if (!val) {
+                resBox.innerText = '请输入有效数值或机器码';
+                return;
+            }
+            if (type === 'arm') {
+                resBox.innerText = `[ARM 32位机器码解析]\n原始码字: ${val}\n解码状态: 匹配成功\n指令推测: 32位体系下标准分支或寄存器数据处理指令。`;
+                return;
+            }
+            if (type === 'thumb') {
+                resBox.innerText = `[Thumb 16位机器码解析]\n原始码字: ${val}\n解码状态: 匹配成功\n指令推测: 16位高密度压缩指令集窄指令流。`;
+                return;
+            }
+            let decNum = 0;
+            try {
+                if (type === 'dec') decNum = parseInt(val, 10);
+                else if (type === 'hex') decNum = parseInt(val, 16);
+                else if (type === 'bin') decNum = parseInt(val, 2);
+                else if (type === 'oct') decNum = parseInt(val, 8);
+                if (isNaN(decNum)) throw new Error();
+                resBox.innerHTML = `十进制 (DEC): ${decNum}\n` +
+                                   `十六进制 (HEX): 0x${decNum.toString(16).toUpperCase()}\n` +
+                                   `二进制 (BIN): ${decNum.toString(2)}\n` +
+                                   `八进制 (OCT): ${decNum.toString(8)}`;
+            } catch (e) {
+                resBox.innerText = '数值格式错误，无法完成转换';
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>资源下载</title>
+    <style>
+        @font-face {
+            font-family: 'AiDianFengYaHei';
+            src: url('aidianfengyahei.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'AiDianFengYaHei', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 0%, #76dbff 0%, #1a96ff 50%, #004b99 100%);
+            background-attachment: fixed;
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-shadow: 0 2px 6px rgba(0, 40, 90, 0.6);
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+            width: 100%;
+            max-width: 650px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 20px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-top: 2px solid rgba(255, 255, 255, 0.9);
+            padding: 28px;
+            box-shadow: 0 12px 40px rgba(0, 50, 100, 0.35);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+        }
+
+        .card-info {
+            font-size: 0.95rem;
+            color: #f0f8ff;
+            margin-bottom: 8px;
+            line-height: 1.5;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .img-btn-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            margin-top: 15px;
+            align-self: flex-start;
+        }
+
+        .img-btn {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .btn-label {
+            margin-top: 6px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+    </style>
+</head>
+<body>
+    <h1>资源下载</h1>
+    <div class="container">
+        <div class="card">
+            <div>
+                <div class="card-title">Buckshot Roulette 源码</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 1.46 GB</div>
+                <div class="card-info">说明:由B站 "GOBYFOX" 逆向的 Buckshot Roulette 游戏源码, 需要 Godot 4.6</div>
+            </div>
+            <a href="buckshot-roulette.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">Just Click 源码</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 2.04 MB</div>
+                <div class="card-info">说明:由B站 "GOBYFOX" 制作的劣质无意义2D小游戏, 需要 Godot 4.6.NET</div>
+            </div>
+            <a href="just-click.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">White Rooms 源码</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 18 KB</div>
+                <div class="card-info">说明:由B站 "GOBYFOX" 制作的劣质无意义3D小游戏, 需要 Godot 4.6</div>
+            </div>
+            <a href="white-rooms.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">Clean Flash</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 28.45 MB</div>
+                <div class="card-info">说明:一款无广告的Flash播放器</div>
+            </div>
+            <a href="cleanflash.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">贝锐向日葵 Lite</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 10.87 MB</div>
+                <div class="card-info">说明:精简被控版贝锐向日葵,适合应急使用,只能被控</div>
+            </div>
+            <a href="awesun-lite.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">QQ 播放器</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 31.81 MB</div>
+                <div class="card-info">说明:轻量级音频/视频播放器</div>
+            </div>
+            <a href="qq-player.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">thprac</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 1.19 MB</div>
+                <div class="card-info">说明:东方Project实用工具</div>
+            </div>
+            <a href="thprac.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">Plain Craft Launcher 2</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 2.51 MB</div>
+                <div class="card-info">说明:PCL2启动器,好用的MC-JE启动器</div>
+            </div>
+            <a href="plaincraftlauncher-2.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">WinRAR</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 3.82 MB</div>
+                <div class="card-info">说明:无广告的解压缩工具</div>
+            </div>
+            <a href="winrar.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">Zulu-JDK(8~25)</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 811.70 MB</div>
+                <div class="card-info">说明:好用的JDK</div>
+            </div>
+            <a href="zulu-jdk_8-25.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">Nightly</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 125.92 MB</div>
+                <div class="card-info">说明:轻量级无需安装的浏览器</div>
+            </div>
+            <a href="nightly.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+        <div class="card">
+            <div>
+                <div class="card-title">图吧工具箱</div>
+                <div class="card-info">类型:ZIP 压缩文件</div>
+                <div class="card-info">大小:约 333.41 MB</div>
+                <div class="card-info">说明:电脑硬件检测工具</div>
+            </div>
+            <a href="tubagongjuxiang.zip" class="img-btn-container" download>
+                <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                <span class="btn-label">DOWNLOAD</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

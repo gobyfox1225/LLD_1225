@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LLD主页</title>
+    <style>
+        @font-face {
+            font-family: 'AiDianFengYaHei';
+            src: url('aidianfengyahei.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            font-family: 'AiDianFengYaHei', sans-serif;
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            overflow-y: auto;
+            background: radial-gradient(circle at 50% 0%, #76dbff 0%, #1a96ff 50%, #004b99 100%);
+            background-attachment: fixed;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.1) 100%);
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .main-container {
+            width: 100vw;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 20px;
+            color: #ffffff;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-radius: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            border-top: 2px solid rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            width: 100%;
+            max-width: 650px;
+            box-shadow: 0 16px 50px rgba(0, 50, 100, 0.35), 
+                        inset 0 2px 4px rgba(255, 255, 255, 0.8),
+                        inset 0 -2px 6px rgba(0, 50, 100, 0.2);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.35) 0%, rgba(255, 255, 255, 0) 100%);
+            border-top-left-radius: 22px;
+            border-top-right-radius: 22px;
+            pointer-events: none;
+        }
+
+        .title-box {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 6px rgba(0, 40, 90, 0.6);
+            position: relative;
+        }
+
+        .desc-box {
+            font-size: 1.1rem;
+            color: #f0f8ff;
+            margin-bottom: 15px;
+            line-height: 1.6;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+            position: relative;
+            max-width: 500px;
+        }
+
+        .bug0-box {
+            font-size: 0.95rem;
+            color: #e6f7ff;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .copy-box {
+            font-size: 0.95rem;
+            color: #ffffff;
+            margin-bottom: 10px;
+            position: relative;
+            cursor: pointer;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .copy-text {
+            text-decoration: underline;
+            transition: opacity 0.2s;
+        }
+
+        .copy-text:hover {
+            opacity: 0.8;
+        }
+
+        .qr-link {
+            color: #ffffff;
+            text-decoration: underline;
+            transition: opacity 0.2s;
+        }
+
+        .qr-link:hover {
+            opacity: 0.8;
+        }
+
+        .creator-box {
+            font-size: 0.95rem;
+            color: #e6f7ff;
+            margin: 15px 0 25px 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            line-height: 1.5;
+        }
+
+        .creator-link {
+            color: #ffffff;
+            text-decoration: underline;
+            font-weight: bold;
+            margin-left: 5px;
+        }
+
+        .button-row {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            justify-content: center;
+            width: 100%;
+            max-width: 300px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .img-btn-container {
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            text-decoration: none;
+            cursor: pointer;
+            align-self: center;
+        }
+
+        .img-btn {
+            width: 120px;
+            height: auto;
+            filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.3));
+        }
+
+        .btn-label {
+            margin-top: 8px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            color: #ffffff;
+            letter-spacing: 1px;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            color: #fff;
+            padding: 12px 24px;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            opacity: 0;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+            z-index: 100;
+            box-shadow: 0 8px 30px rgba(0, 50, 100, 0.3);
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="toast" id="toast">复制成功</div>
+
+    <div class="main-container">
+        <div class="card">
+            <div class="title-box">LLD主页</div>
+            <div class="desc-box">
+                本网站由B站"鳩食QAQ"制作,主要用于展示一些劣质资源和无意义功能           
+            </div>
+
+            <div class="bug0-box">
+                若有bug或者疑问请联系我们
+            </div>
+
+            <div class="copy-box">
+                QQ交流群: <span class="copy-text" onclick="copyText('1051606902', '复制成功')">1051606902</span> (<a href="qq_qrcode.jpg" target="_blank" class="qr-link">或者扫描二维码</a>)
+            </div>
+
+            <div class="copy-box">
+                电子邮箱: <span class="copy-text" onclick="copyText('gobyfox1225@outlook.com', '复制成功')">gobyfox1225@outlook.com</span>
+            </div>
+
+            <div class="creator-box">
+                <div>网站设计: <a href="https://b23.tv/r7CZctU" target="_blank" class="creator-link">鳩食QAQ</a></div>
+                <div>资源上传: <a href="https://b23.tv/edqxi3W" target="_blank" class="creator-link">東風谷早苗_1225</a></div>
+                <div>代码制作: <a href="https://b23.tv/NppQtkH" target="_blank" class="creator-link">GOBYFOX</a></div>
+            </div>
+
+            <div class="button-row">
+                <a href="download.html" target="_blank" class="img-btn-container">
+                    <img src="button.png" class="img-btn" alt="DOWNLOAD">
+                    <span class="btn-label">资源下载</span>
+                </a>
+                <a href="convert.html" target="_blank" class="img-btn-container">
+                    <img src="button.png" class="img-btn" alt="CONVERT">
+                    <span class="btn-label">格式转换</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyText(text, message) {
+            navigator.clipboard.writeText(text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.innerText = message;
+                toast.classList.add('show');
+                setTimeout(() => {
+                    toast.classList.remove('show');
+                }, 2000);
+            });
+        }
+    </script>
+</body>
+</html>
